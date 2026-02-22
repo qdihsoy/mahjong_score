@@ -263,6 +263,51 @@
       border-color: var(--gold);
     }
 
+    .wind-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .wind-row .label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+
+    .wind-icons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .wind-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .wind-icon:hover {
+      border-color: var(--gold);
+      background: rgba(200,169,110,0.1);
+    }
+
+    .wind-icon.selected {
+      border-color: var(--gold);
+      background: rgba(200,169,110,0.2);
+      color: var(--gold2);
+    }
+
     .form-row {
       display: flex;
       gap: 10px;
@@ -768,23 +813,25 @@
     <div class="card-body">
 
       <div class="form-grid">
-        <div class="form-item">
-          <label>場風（役判定用）</label>
-          <select id="bakaze" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:9px 12px;font-size:0.95rem;">
-            <option value="0">東</option>
-            <option value="1">南</option>
-            <option value="2">西</option>
-            <option value="3">北</option>
-          </select>
+        <div class="form-item wind-row">
+          <span class="label">場風（役判定用）</span>
+          <input type="hidden" id="bakaze" value="0">
+          <div class="wind-icons" id="bakaze_icons">
+            <button type="button" class="wind-icon selected" data-value="0" title="東">🀀</button>
+            <button type="button" class="wind-icon" data-value="1" title="南">🀁</button>
+            <button type="button" class="wind-icon" data-value="2" title="西">🀂</button>
+            <button type="button" class="wind-icon" data-value="3" title="北">🀃</button>
+          </div>
         </div>
-        <div class="form-item">
-          <label>自風（役判定用）</label>
-          <select id="jikaze" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:9px 12px;font-size:0.95rem;">
-            <option value="0">東</option>
-            <option value="1">南</option>
-            <option value="2">西</option>
-            <option value="3">北</option>
-          </select>
+        <div class="form-item wind-row">
+          <span class="label">自風（役判定用）</span>
+          <input type="hidden" id="jikaze" value="0">
+          <div class="wind-icons" id="jikaze_icons">
+            <button type="button" class="wind-icon selected" data-value="0" title="東">🀀</button>
+            <button type="button" class="wind-icon" data-value="1" title="南">🀁</button>
+            <button type="button" class="wind-icon" data-value="2" title="西">🀂</button>
+            <button type="button" class="wind-icon" data-value="3" title="北">🀃</button>
+          </div>
         </div>
         <div class="form-item">
           <label>翻数（手牌から自動）</label>
@@ -1143,6 +1190,21 @@
   renderTilePicker();
   renderHand();
   renderMelds();
+
+  function setupWindIcons(iconsId, inputId) {
+    var container = document.getElementById(iconsId);
+    var input = document.getElementById(inputId);
+    if (!container || !input) return;
+    container.querySelectorAll('.wind-icon').forEach(function(btn) {
+      btn.onclick = function() {
+        container.querySelectorAll('.wind-icon').forEach(function(b) { b.classList.remove('selected'); });
+        this.classList.add('selected');
+        input.value = this.dataset.value;
+      };
+    });
+  }
+  setupWindIcons('bakaze_icons', 'bakaze');
+  setupWindIcons('jikaze_icons', 'jikaze');
 
   // ========== 手牌から役・符・翻の自動判定 ==========
   function tileToIndex(cat, num) {
