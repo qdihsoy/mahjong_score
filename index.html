@@ -433,14 +433,20 @@
     }
 
     /* ========== 手牌エリア ========== */
+    .hand-area-wrap {
+      overflow-x: auto;
+      margin-bottom: 4px;
+    }
+
     .hand-area {
       min-height: 72px;
+      min-width: 748px;
       padding: 14px;
       background: var(--bg);
       border: 1px dashed var(--border);
       border-radius: 8px;
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 8px;
       align-items: center;
       align-content: flex-start;
@@ -470,6 +476,7 @@
 
     @media (max-width: 480px) {
       .hand-tile { width: 40px; height: 48px; font-size: 1.45rem; }
+      .hand-area { min-width: 692px; }
     }
 
     .furo-actions {
@@ -612,7 +619,9 @@
       <div style="margin-top:14px;">
         <div class="yaku-section-title">手牌エリア（最大14枚）</div>
         <p style="font-size:0.72rem;color:var(--text-dim);margin-bottom:6px;">クリックで選択（副露用）・ダブルクリックで1枚削除</p>
-        <div class="hand-area" id="hand_area"></div>
+        <div class="hand-area-wrap">
+          <div class="hand-area" id="hand_area"></div>
+        </div>
         <div class="furo-actions">
           <button type="button" class="furo-btn" id="btn_furo">副露する</button>
           <button type="button" class="furo-btn" id="btn_clear_sel">選択解除</button>
