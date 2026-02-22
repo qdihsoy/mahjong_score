@@ -245,7 +245,11 @@
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    @media (min-width: 900px) {
+      .form-grid { gap: 8px; }
     }
 
     @media (max-width: 480px) {
@@ -337,8 +341,8 @@
     /* ---- 計算ボタン ---- */
     .calc-btn {
       width: 100%;
-      margin-top: 16px;
-      padding: 13px;
+      margin-top: 12px;
+      padding: 10px 12px;
       background: linear-gradient(135deg, #b8943e, #c8a96e, #b8943e);
       border: none;
       border-radius: 8px;
@@ -356,12 +360,12 @@
 
     /* ---- 結果表示 ---- */
     .result-box {
-      margin-top: 14px;
+      margin-top: 10px;
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      min-height: 64px;
+      border-radius: 6px;
+      padding: 12px;
+      min-height: 52px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -370,11 +374,24 @@
 
     .result-main {
       font-family: 'Noto Serif JP', serif;
-      font-size: 1.7rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--gold2);
       letter-spacing: 0.05em;
       text-align: center;
+    }
+
+    @media (min-width: 900px) {
+      .result-box { margin-top: 8px; padding: 10px; min-height: 44px; }
+      .result-main { font-size: 1.35rem; }
+      .han-bar { margin-top: 8px; padding: 8px 12px; }
+      .hand-area { min-width: 692px; min-height: 52px; padding: 8px 10px; gap: 6px; }
+      .yaku-section-title { margin-bottom: 6px; font-size: 0.7rem; }
+      .yaku-section { margin-bottom: 10px; }
+      #detected_yaku_bar { margin-top: 8px; }
+      .main-content .card-body > div[style*="margin-top"] { margin-top: 10px !important; }
+      .wind-icon { width: 38px; height: 38px; font-size: 1.35rem; }
+      .form-row { margin-top: 10px; }
     }
 
     .result-sub {
@@ -518,29 +535,29 @@
     }
 
     .hand-area {
-      min-height: 72px;
+      min-height: 60px;
       min-width: 748px;
-      padding: 14px;
+      padding: 10px 12px;
       background: var(--bg);
       border: 1px dashed var(--border);
-      border-radius: 8px;
+      border-radius: 6px;
       display: flex;
       flex-wrap: nowrap;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
       align-content: flex-start;
     }
 
     .hand-tile {
-      width: 44px;
-      height: 52px;
+      width: 40px;
+      height: 46px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: var(--panel2);
       border: 2px solid var(--border);
-      border-radius: 6px;
-      font-size: 1.6rem;
+      border-radius: 5px;
+      font-size: 1.45rem;
       cursor: pointer;
       transition: all 0.15s;
       -webkit-tap-highlight-color: transparent;
@@ -570,8 +587,8 @@
 
     .furo-actions {
       display: flex;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 8px;
+      margin-top: 8px;
       flex-wrap: wrap;
     }
 
