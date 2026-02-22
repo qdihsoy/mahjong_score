@@ -335,6 +335,235 @@
       color: var(--red);
       font-size: 0.9rem;
     }
+
+    /* ========== レイアウト（手牌＋計算・副露エリア） ========== */
+    .app-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+      align-items: flex-start;
+    }
+
+    .main-content {
+      flex: 1;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .meld-sidebar {
+      width: 280px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 700px) {
+      .app-wrap { flex-direction: column; padding: 16px 12px 40px; }
+      .meld-sidebar { width: 100%; }
+    }
+
+    /* ========== 手牌選択（アコーディオン） ========== */
+    .accordion-header {
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--gold2);
+      letter-spacing: 0.08em;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .accordion-header:hover { background: var(--panel); }
+    .accordion-header .arrow { transition: transform 0.25s; }
+    .accordion-header.open .arrow { transform: rotate(180deg); }
+
+    .accordion-body {
+      display: none;
+      padding: 12px 0 4px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .accordion-body.open { display: block; }
+
+    .accordion-item { margin-bottom: 4px; }
+    .accordion-item:last-child { margin-bottom: 0; }
+
+    .tile-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tile-btn {
+      width: 44px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tile-btn:hover {
+      border-color: var(--gold);
+      background: rgba(200,169,110,0.12);
+    }
+
+    .tile-btn:active { transform: scale(0.96); }
+
+    @media (max-width: 480px) {
+      .tile-btn { width: 40px; height: 48px; font-size: 1.45rem; }
+    }
+
+    /* ========== 手牌エリア ========== */
+    .hand-area {
+      min-height: 72px;
+      padding: 14px;
+      background: var(--bg);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      align-content: flex-start;
+    }
+
+    .hand-tile {
+      width: 44px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--panel2);
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .hand-tile:hover { border-color: var(--gold); }
+    .hand-tile.selected {
+      border-color: var(--gold);
+      background: rgba(200,169,110,0.25);
+      box-shadow: 0 0 0 2px var(--gold);
+    }
+
+    @media (max-width: 480px) {
+      .hand-tile { width: 40px; height: 48px; font-size: 1.45rem; }
+    }
+
+    .furo-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .furo-btn {
+      padding: 10px 18px;
+      border-radius: 6px;
+      border: 1px solid var(--gold);
+      background: rgba(200,169,110,0.12);
+      color: var(--gold2);
+      font-size: 0.88rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .furo-btn:hover { background: rgba(200,169,110,0.22); }
+    .furo-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ========== 副露エリア（右サイド） ========== */
+    .meld-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: sticky;
+      top: 20px;
+    }
+
+    .meld-card .card-header { padding: 10px 14px; }
+    .meld-card .card-body { padding: 12px 14px; }
+
+    .meld-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .meld-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 10px;
+      background: var(--bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .meld-tile {
+      width: 38px;
+      height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .meld-tile.called-from-0 { transform: rotate(-90deg); }   /* 上家 */
+    .meld-tile.called-from-1 { transform: none; }            /* 対面 */
+    .meld-tile.called-from-2 { transform: rotate(90deg); }   /* 下家 */
+
+    .meld-tile-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      min-width: 46px;
+      min-height: 50px;
+    }
+
+    .meld-tile-wrap .call-label {
+      font-size: 0.55rem;
+      color: var(--gold);
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    .meld-placeholder {
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 20px 10px;
+      letter-spacing: 0.05em;
+    }
   </style>
 </head>
 <body>
@@ -344,7 +573,53 @@
   <p>雀魂 段位戦ルール対応</p>
 </header>
 
-<div class="container">
+<div class="app-wrap">
+  <div class="main-content">
+
+  <!-- 手牌選択 -->
+  <div class="card">
+    <div class="card-header"><div class="dot"></div><h2>手 牌 選 択</h2></div>
+    <div class="card-body">
+      <div class="accordion" id="tile_accordion">
+        <div class="accordion-item">
+          <div class="accordion-header" data-target="manzu">萬子 <span class="arrow">▼</span></div>
+          <div class="accordion-body" id="manzu">
+            <div class="tile-grid" id="grid_manzu"></div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" data-target="pinzu">筒子 <span class="arrow">▼</span></div>
+          <div class="accordion-body" id="pinzu">
+            <div class="tile-grid" id="grid_pinzu"></div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" data-target="souzu">索子 <span class="arrow">▼</span></div>
+          <div class="accordion-body" id="souzu">
+            <div class="tile-grid" id="grid_souzu"></div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" data-target="jihai">字牌 <span class="arrow">▼</span></div>
+          <div class="accordion-body" id="jihai">
+            <div class="tile-grid" id="grid_jihai"></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="yaku-section-title">手牌エリア（最大14枚）</div>
+        <p style="font-size:0.72rem;color:var(--text-dim);margin-bottom:6px;">クリックで選択（副露用）・ダブルクリックで1枚削除</p>
+        <div class="hand-area" id="hand_area"></div>
+        <div class="furo-actions">
+          <button type="button" class="furo-btn" id="btn_furo">副露する</button>
+          <button type="button" class="furo-btn" id="btn_clear_sel">選択解除</button>
+          <button type="button" class="furo-btn" id="btn_remove_sel">選択牌を削除</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container" style="max-width:none;padding:0;">
 
   <!-- 役選択 -->
   <div class="card">
@@ -499,9 +774,203 @@
     </div>
   </div>
 
+  </div>
+  </div>
+
+  <!-- 副露エリア（右側） -->
+  <aside class="meld-sidebar">
+    <div class="meld-card">
+      <div class="card-header"><div class="dot"></div><h2>副 露 エ リア</h2></div>
+      <div class="card-body">
+        <div class="meld-list" id="meld_list"></div>
+        <div class="meld-placeholder" id="meld_placeholder">手牌で牌を選択し「副露する」でここに移動します。<br>牌をクリックで上家・対面・下家を切り替え。</div>
+      </div>
+    </div>
+  </aside>
+
 </div>
 
 <script>
+  // ========== 牌データ（Unicode） ==========
+  var TILES = {
+    manzu: [0x1F007,0x1F008,0x1F009,0x1F00A,0x1F00B,0x1F00C,0x1F00D,0x1F00E,0x1F00F],
+    pinzu: [0x1F019,0x1F01A,0x1F01B,0x1F01C,0x1F01D,0x1F01E,0x1F01F,0x1F020,0x1F021],
+    souzu: [0x1F010,0x1F011,0x1F012,0x1F013,0x1F014,0x1F015,0x1F016,0x1F017,0x1F018],
+    jihai: [0x1F000,0x1F001,0x1F002,0x1F003,0x1F004,0x1F005,0x1F006]
+  };
+  var JIHAI_NAMES = ['東','南','西','北','中','発','白'];
+
+  function renderTilePicker() {
+    ['manzu','pinzu','souzu'].forEach(function(cat) {
+      var grid = document.getElementById('grid_' + cat);
+      if (!grid) return;
+      grid.innerHTML = '';
+      var arr = TILES[cat];
+      for (var i = 0; i < arr.length; i++) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tile-btn';
+        btn.textContent = String.fromCodePoint(arr[i]);
+        btn.dataset.cat = cat;
+        btn.dataset.num = i + 1;
+        btn.dataset.unicode = arr[i];
+        btn.onclick = function() { addToHand(this.dataset.cat, parseInt(this.dataset.num, 10), parseInt(this.dataset.unicode, 10)); };
+        grid.appendChild(btn);
+      }
+    });
+    var jg = document.getElementById('grid_jihai');
+    if (jg) {
+      jg.innerHTML = '';
+      for (var j = 0; j < TILES.jihai.length; j++) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'tile-btn';
+        b.textContent = String.fromCodePoint(TILES.jihai[j]);
+        b.dataset.cat = 'jihai';
+        b.dataset.num = String(j + 1);
+        b.dataset.unicode = TILES.jihai[j];
+        b.onclick = function() { addToHand('jihai', parseInt(this.dataset.num, 10), parseInt(this.dataset.unicode, 10)); };
+        jg.appendChild(b);
+      }
+    }
+  }
+
+  var handTiles = [];
+  var handTileId = 0;
+  var selectedHandIndices = new Set();
+  var meldGroups = [];
+
+  function addToHand(cat, num, unicode) {
+    if (handTiles.length >= 14) return;
+    var id = ++handTileId;
+    var name = (cat === 'jihai') ? JIHAI_NAMES[num - 1] : (cat === 'manzu' ? num + '萬' : cat === 'pinzu' ? num + '筒' : num + '索');
+    handTiles.push({ id: id, cat: cat, num: num, unicode: unicode, name: name });
+    renderHand();
+  }
+
+  function removeFromHand(index) {
+    handTiles.splice(index, 1);
+    selectedHandIndices.clear();
+    renderHand();
+  }
+
+  function toggleHandSelection(index) {
+    if (selectedHandIndices.has(index)) selectedHandIndices.delete(index);
+    else selectedHandIndices.add(index);
+    renderHand();
+  }
+
+  function renderHand() {
+    var area = document.getElementById('hand_area');
+    area.innerHTML = '';
+    handTiles.forEach(function(t, i) {
+      var el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'hand-tile' + (selectedHandIndices.has(i) ? ' selected' : '');
+      el.textContent = String.fromCodePoint(t.unicode);
+      el.dataset.index = i;
+      el.onclick = function(ev) {
+        ev.preventDefault();
+        var idx = parseInt(this.dataset.index, 10);
+        toggleHandSelection(idx);
+      };
+      el.ondblclick = function(ev) {
+        ev.preventDefault();
+        var idx = parseInt(this.dataset.index, 10);
+        selectedHandIndices.delete(idx);
+        removeFromHand(idx);
+      };
+      area.appendChild(el);
+    });
+    document.getElementById('btn_furo').disabled = selectedHandIndices.size < 3 || selectedHandIndices.size > 4;
+  }
+
+  document.getElementById('btn_clear_sel').onclick = function() {
+    selectedHandIndices.clear();
+    renderHand();
+  };
+
+  document.getElementById('btn_remove_sel').onclick = function() {
+    if (selectedHandIndices.size === 0) return;
+    var indices = Array.from(selectedHandIndices).sort(function(a,b){ return b - a; });
+    indices.forEach(function(i) { handTiles.splice(i, 1); });
+    selectedHandIndices.clear();
+    renderHand();
+  };
+
+  document.getElementById('btn_furo').onclick = function() {
+    if (selectedHandIndices.size < 3 || selectedHandIndices.size > 4) return;
+    var indices = Array.from(selectedHandIndices).sort(function(a,b){ return a - b; });
+    var tiles = indices.map(function(i) { return Object.assign({}, handTiles[i]); });
+    meldGroups.push({ tiles: tiles, calledIndex: 0, calledFrom: 0 });
+    for (var i = indices.length - 1; i >= 0; i--) handTiles.splice(indices[i], 1);
+    selectedHandIndices.clear();
+    renderHand();
+    renderMelds();
+  };
+
+  var CALL_LABELS = ['上家','対面','下家'];
+
+  function renderMelds() {
+    var list = document.getElementById('meld_list');
+    var placeholder = document.getElementById('meld_placeholder');
+    list.innerHTML = '';
+    if (meldGroups.length === 0) {
+      placeholder.style.display = 'block';
+      return;
+    }
+    placeholder.style.display = 'none';
+    meldGroups.forEach(function(group, gIdx) {
+      var wrap = document.createElement('div');
+      wrap.className = 'meld-group';
+      group.tiles.forEach(function(tile, tIdx) {
+        var tw = document.createElement('div');
+        tw.className = 'meld-tile-wrap';
+        var span = document.createElement('span');
+        var isCalled = tIdx === group.calledIndex;
+        span.className = 'meld-tile' + (isCalled ? ' called-from-' + group.calledFrom : '');
+        span.textContent = String.fromCodePoint(tile.unicode);
+        span.dataset.g = gIdx;
+        span.dataset.t = tIdx;
+        span.onclick = function() {
+          var g = parseInt(this.dataset.g, 10);
+          var t = parseInt(this.dataset.t, 10);
+          if (meldGroups[g].calledIndex !== t) {
+            meldGroups[g].calledIndex = t;
+            meldGroups[g].calledFrom = 0;
+          } else {
+            meldGroups[g].calledFrom = (meldGroups[g].calledFrom + 1) % 3;
+          }
+          renderMelds();
+        };
+        tw.appendChild(span);
+        if (isCalled) {
+          var lbl = document.createElement('span');
+          lbl.className = 'call-label';
+          lbl.textContent = CALL_LABELS[group.calledFrom];
+          tw.appendChild(lbl);
+        }
+        wrap.appendChild(tw);
+      });
+      list.appendChild(wrap);
+    });
+  }
+
+  document.querySelectorAll('#tile_accordion .accordion-header').forEach(function(h) {
+    h.onclick = function() {
+      var target = document.getElementById(this.dataset.target);
+      var isOpen = target.classList.contains('open');
+      document.querySelectorAll('#tile_accordion .accordion-body').forEach(function(b) { b.classList.remove('open'); });
+      document.querySelectorAll('#tile_accordion .accordion-header').forEach(function(h2) { h2.classList.remove('open'); });
+      if (!isOpen) { target.classList.add('open'); this.classList.add('open'); }
+    };
+  });
+  document.querySelector('#tile_accordion .accordion-header').click();
+
+  renderTilePicker();
+  renderHand();
+  renderMelds();
+
   function updateYaku() {
     var isKui = document.querySelector('input[name="menzen"]:checked').value === "kui";
     var checkboxes = document.querySelectorAll('.yaku');
