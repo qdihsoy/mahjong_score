@@ -574,6 +574,112 @@
       padding: 20px 10px;
       letter-spacing: 0.05em;
     }
+
+    /* ========== 手動役選択モーダル ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .modal-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      max-width: 420px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
+    .modal-box h3 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+
+    .modal-desc {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .modal-yaku-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      margin-bottom: 20px;
+    }
+
+    .modal-yaku-grid label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 0.85rem;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+    }
+
+    .modal-yaku-grid label:hover { border-color: var(--gold); }
+    .modal-yaku-grid label:has(input:checked) { border-color: var(--gold); color: var(--gold2); background: rgba(200,169,110,0.1); }
+
+    .modal-yaku-grid input { margin: 0; }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .modal-btn-cancel {
+      padding: 10px 20px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-btn-cancel:hover { color: var(--text); border-color: var(--text-dim); }
+
+    .modal-btn-ok {
+      padding: 10px 24px;
+      border-radius: 6px;
+      border: none;
+      background: linear-gradient(135deg, #b8943e, #c8a96e);
+      color: #0d1117;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .modal-btn-ok:hover { opacity: 0.9; }
+
+    .modal-yaku-grid label:has(input:disabled) {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -633,99 +739,6 @@
 
 <div class="container" style="max-width:none;padding:0;">
 
-  <!-- 役選択 -->
-  <div class="card">
-    <div class="card-header"><div class="dot"></div><h2>役 選 択</h2></div>
-    <div class="card-body">
-
-      <div class="menzen-row" style="margin-bottom:16px;">
-        <div class="radio-btn">
-          <input type="radio" name="menzen" id="m_menzen" value="menzen" checked onchange="updateYaku()">
-          <label for="m_menzen">門 前</label>
-        </div>
-        <div class="radio-btn">
-          <input type="radio" name="menzen" id="m_kui" value="kui" onchange="updateYaku()">
-          <label for="m_kui">食 い</label>
-        </div>
-      </div>
-
-      <div class="yaku-section">
-        <div class="yaku-section-title">1 翻 役</div>
-        <div class="yaku-grid">
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_riichi"  data-name="立直"        data-han="1" data-menzen="true" onchange="updateYaku()"><label for="y_riichi">立直</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_ippatsu" data-name="一発"        data-han="1" data-menzen="true" onchange="updateYaku()"><label for="y_ippatsu">一発</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_tsumo"   data-name="門清自摸"    data-han="1" data-menzen="true" onchange="updateYaku()"><label for="y_tsumo">門前清自摸和</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_pinfu"   data-name="平和"        data-han="1" data-menzen="true" onchange="updateYaku()"><label for="y_pinfu">平和</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_tanyao"  data-name="断幺九"      data-han="1" data-han-kui="1"   onchange="updateYaku()"><label for="y_tanyao">断幺九</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_iipeiko" data-name="一盃口"      data-han="1" data-menzen="true" onchange="updateYaku()"><label for="y_iipeiko">一盃口</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_haku"    data-name="白"          data-han="1" data-han-kui="1"   onchange="updateYaku()"><label for="y_haku">白</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_hatsu"   data-name="発"          data-han="1" data-han-kui="1"   onchange="updateYaku()"><label for="y_hatsu">発</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_chun"    data-name="中"          data-han="1" data-han-kui="1"   onchange="updateYaku()"><label for="y_chun">中</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_bakaze"  data-name="場風"        data-han="1" data-han-kui="1"   onchange="updateYaku()"><label for="y_bakaze">場風</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_jikaze"  data-name="自風"        data-han="1" data-han-kui="1"   onchange="updateYaku()"><label for="y_jikaze">自風</label></div>
-        </div>
-      </div>
-
-      <div class="yaku-section">
-        <div class="yaku-section-title">2 翻 役</div>
-        <div class="yaku-grid">
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_daburi"      data-name="ダブル立直"   data-han="2" data-menzen="true" onchange="updateYaku()"><label for="y_daburi">ダブル立直</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_chanta"      data-name="混全帯幺九"   data-han="2" data-han-kui="1"   onchange="updateYaku()"><label for="y_chanta">混全帯幺九</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_ittsu"       data-name="一気通貫"     data-han="2" data-han-kui="1"   onchange="updateYaku()"><label for="y_ittsu">一気通貫</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_sanshoku"    data-name="三色同順"     data-han="2" data-han-kui="1"   onchange="updateYaku()"><label for="y_sanshoku">三色同順</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_sanshokudou" data-name="三色同刻"     data-han="2" data-han-kui="2"   onchange="updateYaku()"><label for="y_sanshokudou">三色同刻</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_toitoi"      data-name="対々和"       data-han="2" data-han-kui="2"   onchange="updateYaku()"><label for="y_toitoi">対々和</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_sanankou"    data-name="三暗刻"       data-han="2" data-han-kui="2"   onchange="updateYaku()"><label for="y_sanankou">三暗刻</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_shosangen"   data-name="小三元"       data-han="2" data-han-kui="2"   onchange="updateYaku()"><label for="y_shosangen">小三元</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_honroto"     data-name="混老頭"       data-han="2" data-han-kui="2"   onchange="updateYaku()"><label for="y_honroto">混老頭</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_chiitoitsu"  data-name="七対子"       data-han="2" data-menzen="true" data-special="chiitoitsu" onchange="updateYaku()"><label for="y_chiitoitsu">七対子</label></div>
-        </div>
-      </div>
-
-      <div class="yaku-section">
-        <div class="yaku-section-title">3 翻 役</div>
-        <div class="yaku-grid">
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_ryanpeiko" data-name="二盃口"   data-han="3" data-menzen="true" onchange="updateYaku()"><label for="y_ryanpeiko">二盃口</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_junchan"   data-name="純全帯幺九" data-han="3" data-han-kui="2" onchange="updateYaku()"><label for="y_junchan">純全帯幺九</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_honitsu"   data-name="混一色"   data-han="3" data-han-kui="2" onchange="updateYaku()"><label for="y_honitsu">混一色</label></div>
-        </div>
-      </div>
-
-      <div class="yaku-section">
-        <div class="yaku-section-title">6 翻 役</div>
-        <div class="yaku-grid">
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_chinitsu" data-name="清一色" data-han="6" data-han-kui="5" onchange="updateYaku()"><label for="y_chinitsu">清一色</label></div>
-        </div>
-      </div>
-
-      <div class="yaku-section yakuman">
-        <div class="yaku-section-title" style="color:var(--red);border-color:rgba(224,90,90,0.3);">役 満</div>
-        <div class="yaku-grid">
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_kokushi"    data-name="国士無双"   data-han="13" data-menzen="true" onchange="updateYaku()"><label for="y_kokushi">国士無双</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_suankou"    data-name="四暗刻"     data-han="13" data-menzen="true" onchange="updateYaku()"><label for="y_suankou">四暗刻</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_daisangen"  data-name="大三元"     data-han="13" data-han-kui="13"  onchange="updateYaku()"><label for="y_daisangen">大三元</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_shosushi"   data-name="小四喜"     data-han="13" data-han-kui="13"  onchange="updateYaku()"><label for="y_shosushi">小四喜</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_daisushi"   data-name="大四喜"     data-han="13" data-han-kui="13"  onchange="updateYaku()"><label for="y_daisushi">大四喜</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_tsuiso"     data-name="字一色"     data-han="13" data-han-kui="13"  onchange="updateYaku()"><label for="y_tsuiso">字一色</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_ryuiso"     data-name="緑一色"     data-han="13" data-han-kui="13"  onchange="updateYaku()"><label for="y_ryuiso">緑一色</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_chinroto"   data-name="清老頭"     data-han="13" data-han-kui="13"  onchange="updateYaku()"><label for="y_chinroto">清老頭</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_churenpoton" data-name="九蓮宝燈" data-han="13" data-menzen="true" onchange="updateYaku()"><label for="y_churenpoton">九蓮宝燈</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_tenho"      data-name="天和"       data-han="13" data-menzen="true" onchange="updateYaku()"><label for="y_tenho">天和</label></div>
-          <div class="yaku-check"><input type="checkbox" class="yaku" id="y_chiho"      data-name="地和"       data-han="13" data-menzen="true" onchange="updateYaku()"><label for="y_chiho">地和</label></div>
-        </div>
-      </div>
-
-      <div class="han-bar">
-        <div>
-          <div class="label">合計翻数</div>
-          <div class="yaku-names" id="yaku_names">役なし</div>
-        </div>
-        <div class="value" id="han_display">0翻</div>
-      </div>
-
-    </div>
-  </div>
-
   <!-- 点数計算 -->
   <div class="card">
     <div class="card-header"><div class="dot"></div><h2>点 数 計 算</h2></div>
@@ -733,12 +746,30 @@
 
       <div class="form-grid">
         <div class="form-item">
-          <label>翻数</label>
-          <input type="number" id="han" placeholder="例：3" min="1">
+          <label>場風（役判定用）</label>
+          <select id="bakaze" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:9px 12px;font-size:0.95rem;">
+            <option value="0">東</option>
+            <option value="1">南</option>
+            <option value="2">西</option>
+            <option value="3">北</option>
+          </select>
         </div>
         <div class="form-item">
-          <label>符（満貫以上は不要）</label>
-          <input type="number" id="fu" placeholder="例：40" min="20">
+          <label>自風（役判定用）</label>
+          <select id="jikaze" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:9px 12px;font-size:0.95rem;">
+            <option value="0">東</option>
+            <option value="1">南</option>
+            <option value="2">西</option>
+            <option value="3">北</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label>翻数（手牌から自動）</label>
+          <input type="number" id="han" placeholder="手牌を14枚で計算" min="1" readonly style="background:var(--panel2);">
+        </div>
+        <div class="form-item">
+          <label>符（手牌から自動）</label>
+          <input type="number" id="fu" placeholder="手牌を14枚で計算" min="20" readonly style="background:var(--panel2);">
         </div>
         <div class="form-item">
           <label>本場</label>
@@ -779,6 +810,14 @@
 
       <button class="calc-btn" onclick="keisan()">計 算 す る</button>
 
+      <div class="han-bar" id="detected_yaku_bar" style="display:none; margin-top:12px;">
+        <div>
+          <div class="label">検出された役</div>
+          <div class="yaku-names" id="yaku_names">—</div>
+        </div>
+        <div class="value" id="han_display">0翻</div>
+      </div>
+
       <div class="result-box" id="result_box">
         <span class="result-placeholder">結果がここに表示されます</span>
       </div>
@@ -800,6 +839,26 @@
     </div>
   </aside>
 
+</div>
+
+<!-- 手動役選択モーダル -->
+<div id="yaku_modal" class="modal-overlay" style="display:none;" onclick="if(event.target===this) closeYakuModal();">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <h3>手牌からは判定できない役</h3>
+    <p class="modal-desc">該当する役にチェックを入れて「点数計算」を押してください。</p>
+    <div class="modal-yaku-grid">
+      <label><input type="checkbox" id="ex_riichi"> 立直（1翻）</label>
+      <label><input type="checkbox" id="ex_daburi"> ダブル立直（2翻）</label>
+      <label><input type="checkbox" id="ex_ippatsu"> 一発（1翻）</label>
+      <label><input type="checkbox" id="ex_tsumo"> 門前清自摸和（1翻）</label>
+      <label><input type="checkbox" id="ex_tenho"> 天和（役満）</label>
+      <label><input type="checkbox" id="ex_chiho"> 地和（役満）</label>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="modal-btn-cancel" id="modal_cancel">キャンセル</button>
+      <button type="button" class="modal-btn-ok" id="modal_ok">点数計算</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -983,36 +1042,348 @@
   renderHand();
   renderMelds();
 
-  function updateYaku() {
-    var isKui = document.querySelector('input[name="menzen"]:checked').value === "kui";
-    var checkboxes = document.querySelectorAll('.yaku');
-    var totalHan = 0;
-    var yakuList = [];
-    var isChiitoitsu = false;
+  // ========== 手牌から役・符・翻の自動判定 ==========
+  function tileToIndex(cat, num) {
+    if (cat === 'manzu') return num - 1;
+    if (cat === 'pinzu') return 9 + num - 1;
+    if (cat === 'souzu') return 18 + num - 1;
+    return 27 + num - 1;
+  }
 
-    checkboxes.forEach(function(cb) {
-      if (isKui && cb.dataset.menzen === "true") {
-        cb.disabled = true;
-        cb.checked = false;
-        return;
-      } else {
-        cb.disabled = false;
-      }
-      if (!cb.checked) return;
-
-      var han = (isKui && cb.dataset.hanKui !== undefined)
-        ? Number(cb.dataset.hanKui)
-        : Number(cb.dataset.han);
-
-      totalHan += han;
-      yakuList.push(cb.dataset.name);
-      if (cb.dataset.special === "chiitoitsu") isChiitoitsu = true;
+  function buildCounts() {
+    var c = new Array(34);
+    for (var i = 0; i < 34; i++) c[i] = 0;
+    handTiles.forEach(function(t) {
+      var idx = tileToIndex(t.cat, t.num);
+      c[idx]++;
     });
+    meldGroups.forEach(function(g) {
+      g.tiles.forEach(function(t) {
+        var idx = tileToIndex(t.cat, t.num);
+        c[idx]++;
+      });
+    });
+    return c;
+  }
 
-    document.getElementById("han_display").textContent = totalHan + "翻";
-    document.getElementById("yaku_names").textContent  = yakuList.length > 0 ? yakuList.join("・") : "役なし";
-    document.getElementById("han").value = totalHan > 0 ? totalHan : "";
-    if (isChiitoitsu) document.getElementById("fu").value = 25;
+  var KOKUSHI_IDS = [0,8,9,17,18,26,27,28,29,30,31,32,33];
+  function isKokushi(c) {
+    var dup = 0;
+    for (var i = 0; i < KOKUSHI_IDS.length; i++) {
+      var n = c[KOKUSHI_IDS[i]];
+      if (n === 0) return false;
+      if (n >= 2) dup++;
+    }
+    return dup >= 1;
+  }
+
+  function isChiitoitsu(c) {
+    var pairs = 0;
+    for (var i = 0; i < 34; i++) {
+      if (c[i] === 2) pairs++;
+      else if (c[i] !== 0) return false;
+    }
+    return pairs === 7;
+  }
+
+  function removeMeld(c, meld) {
+    for (var i = 0; i < meld.length; i++) c[meld[i]]--;
+  }
+  function addMeld(c, meld) {
+    for (var i = 0; i < meld.length; i++) c[meld[i]]++;
+  }
+
+  function findMelds(c, out) {
+    if (out.length === 4) return true;
+    for (var i = 0; i < 34; i++) {
+      if (c[i] >= 3) {
+        removeMeld(c, [i,i,i]);
+        out.push({ type: 'koutsu', tile: i });
+        if (findMelds(c, out)) return true;
+        addMeld(c, [i,i,i]);
+        out.pop();
+      }
+    }
+    for (var suit = 0; suit < 3; suit++) {
+      var base = suit * 9;
+      for (var n = 0; n < 7; n++) {
+        var a = base + n, b = base + n + 1, d = base + n + 2;
+        if (c[a] >= 1 && c[b] >= 1 && c[d] >= 1) {
+          removeMeld(c, [a,b,d]);
+          out.push({ type: 'shuntsu', start: a });
+          if (findMelds(c, out)) return true;
+          addMeld(c, [a,b,d]);
+          out.pop();
+        }
+      }
+    }
+    return false;
+  }
+
+  function findDecomposition(c) {
+    for (var pair = 0; pair < 34; pair++) {
+      if (c[pair] < 2) continue;
+      c[pair] -= 2;
+      var melds = [];
+      if (findMelds(c, melds)) {
+        c[pair] += 2;
+        return { pair: pair, melds: melds };
+      }
+      c[pair] += 2;
+    }
+    return null;
+  }
+
+  function analyzeHand() {
+    var totalTiles = handTiles.length;
+    meldGroups.forEach(function(g) { totalTiles += g.tiles.length; });
+    if (totalTiles !== 14) return { ok: false, error: '手牌は14枚にしてください（現在' + totalTiles + '枚）' };
+
+    var counts = buildCounts();
+    var openCount = 0;
+    meldGroups.forEach(function(g) { openCount += g.tiles.length; });
+    var menzen = (openCount === 0);
+
+    var bakaze = parseInt(document.getElementById('bakaze').value, 10);
+    var jikaze = parseInt(document.getElementById('jikaze').value, 10);
+    var bakazeTile = 27 + bakaze;
+    var jikazeTile = 27 + jikaze;
+
+    var yakuList = [];
+    var han = 0;
+    var fu = 0;
+    var isChitoi = false;
+    var isKoku = false;
+    var decomposition = null;
+
+    if (isKokushi(counts)) {
+      isKoku = true;
+      yakuList.push({ name: '国士無双', han: 13 });
+      han = 13;
+      fu = 0;
+    } else if (isChiitoitsu(counts)) {
+      isChitoi = true;
+      yakuList.push({ name: '七対子', han: 2 });
+      han = 2;
+      fu = 25;
+    } else {
+      decomposition = findDecomposition(counts.slice());
+      if (!decomposition) return { ok: false, error: '和了形ではありません' };
+
+      var pair = decomposition.pair;
+      var melds = decomposition.melds;
+
+      function isTerminalOrHonor(idx) {
+        if (idx >= 27) return true;
+        var r = idx % 9;
+        return r === 0 || r === 8;
+      }
+      function isTerminal(idx) {
+        if (idx >= 27) return false;
+        var r = idx % 9;
+        return r === 0 || r === 8;
+      }
+      function suitOf(idx) {
+        if (idx < 9) return 0;
+        if (idx < 18) return 1;
+        if (idx < 27) return 2;
+        return -1;
+      }
+      function numberInSuit(idx) {
+        return idx % 9;
+      }
+
+      var allSimple = true;
+      for (var i = 0; i < 34; i++) {
+        if (counts[i] && isTerminalOrHonor(i)) { allSimple = false; break; }
+      }
+      if (allSimple) { yakuList.push({ name: '断幺九', han: menzen ? 1 : 1 }); han += 1; }
+
+      var dragonTriplets = 0;
+      var dragonPair = false;
+      for (var i = 31; i <= 33; i++) {
+        if (counts[i] >= 3) dragonTriplets++;
+        if (pair === i && counts[i] >= 2) dragonPair = true;
+      }
+      if (counts[31] >= 3) { yakuList.push({ name: '白', han: 1 }); han += 1; }
+      if (counts[32] >= 3) { yakuList.push({ name: '発', han: 1 }); han += 1; }
+      if (counts[33] >= 3) { yakuList.push({ name: '中', han: 1 }); han += 1; }
+      if (counts[bakazeTile] >= 3) { yakuList.push({ name: '場風', han: 1 }); han += 1; }
+      if (counts[jikazeTile] >= 3) { yakuList.push({ name: '自風', han: 1 }); han += 1; }
+
+      if (dragonTriplets === 3) { yakuList.push({ name: '大三元', han: 13 }); han = 13; }
+      else if (dragonTriplets === 2 && dragonPair) { yakuList.push({ name: '小三元', han: 2 }); han += 2; }
+
+      var windCount = 0;
+      for (var w = 27; w <= 30; w++) {
+        if (counts[w] >= 3) windCount++;
+      }
+      if (windCount >= 4) { yakuList.push({ name: '大四喜', han: 13 }); han = 13; }
+      else if (windCount >= 3) { yakuList.push({ name: '小四喜', han: 13 }); han = Math.max(han, 13); }
+
+      var allHonors = true;
+      for (var i = 0; i < 27; i++) {
+        if (counts[i] > 0) { allHonors = false; break; }
+      }
+      if (allHonors && han < 13) { yakuList.push({ name: '字一色', han: 13 }); han = 13; }
+
+      var toitoi = true;
+      for (var m = 0; m < melds.length; m++) {
+        if (melds[m].type === 'shuntsu') { toitoi = false; break; }
+      }
+      if (toitoi) { yakuList.push({ name: '対々和', han: 2 }); han += 2; }
+
+      var sanshoku = false;
+      for (var num = 0; num <= 6; num++) {
+        var has0 = false, has1 = false, has2 = false;
+        for (var m = 0; m < melds.length; m++) {
+          if (melds[m].type === 'shuntsu' && melds[m].start === num) has0 = true;
+          if (melds[m].type === 'shuntsu' && melds[m].start === 9 + num) has1 = true;
+          if (melds[m].type === 'shuntsu' && melds[m].start === 18 + num) has2 = true;
+        }
+        if (has0 && has1 && has2) { sanshoku = true; break; }
+      }
+      if (sanshoku) { yakuList.push({ name: '三色同順', han: menzen ? 2 : 1 }); han += (menzen ? 2 : 1); }
+
+      var ittsu = false;
+      for (var suit = 0; suit < 3; suit++) {
+        var base = suit * 9;
+        var has0 = false, has3 = false, has6 = false;
+        for (var m = 0; m < melds.length; m++) {
+          if (melds[m].type === 'shuntsu') {
+            if (melds[m].start === base) has0 = true;
+            if (melds[m].start === base + 3) has3 = true;
+            if (melds[m].start === base + 6) has6 = true;
+          }
+        }
+        if (has0 && has3 && has6) { ittsu = true; break; }
+      }
+      if (ittsu) { yakuList.push({ name: '一気通貫', han: menzen ? 2 : 1 }); han += (menzen ? 2 : 1); }
+
+      var sanshokudou = false;
+      for (var n = 0; n < 9; n++) {
+        var k0 = false, k1 = false, k2 = false;
+        melds.forEach(function(m) {
+          if (m.type === 'koutsu' && m.tile === n) k0 = true;
+          if (m.type === 'koutsu' && m.tile === 9 + n) k1 = true;
+          if (m.type === 'koutsu' && m.tile === 18 + n) k2 = true;
+        });
+        if (k0 && k1 && k2) { sanshokudou = true; break; }
+      }
+      if (sanshokudou) { yakuList.push({ name: '三色同刻', han: 2 }); han += 2; }
+
+      var chanta = true;
+      for (var m = 0; m < melds.length; m++) {
+        var mt = melds[m];
+        if (mt.type === 'shuntsu') {
+          var start = mt.start;
+          if (!isTerminalOrHonor(start) && !isTerminalOrHonor(start+1) && !isTerminalOrHonor(start+2)) chanta = false;
+        } else {
+          if (!isTerminalOrHonor(mt.tile)) chanta = false;
+        }
+      }
+      if (!isTerminalOrHonor(pair)) chanta = false;
+      if (chanta) {
+        var junchan = true;
+        for (var m = 0; m < melds.length; m++) {
+          var mt = melds[m];
+          if (mt.type === 'koutsu' && mt.tile >= 27) junchan = false;
+          if (mt.type === 'shuntsu' && (mt.start >= 27 || (mt.start+2) % 9 >= 27)) junchan = false;
+        }
+        if (pair >= 27) junchan = false;
+        if (junchan) { yakuList.push({ name: '純全帯幺九', han: menzen ? 3 : 2 }); han += (menzen ? 3 : 2); }
+        else { yakuList.push({ name: '混全帯幺九', han: menzen ? 2 : 1 }); han += (menzen ? 2 : 1); }
+      }
+
+      var suits = [false, false, false];
+      for (var i = 0; i < 27; i++) {
+        if (counts[i] > 0) suits[suitOf(i)] = true;
+      }
+      var suitCount = (suits[0]?1:0) + (suits[1]?1:0) + (suits[2]?1:0);
+      var hasHonor = counts[27] || counts[28] || counts[29] || counts[30] || counts[31] || counts[32] || counts[33];
+      if (suitCount === 1 && hasHonor) { yakuList.push({ name: '混一色', han: menzen ? 3 : 2 }); han += (menzen ? 3 : 2); }
+      if (suitCount === 1 && !hasHonor) { yakuList.push({ name: '清一色', han: menzen ? 6 : 5 }); han += (menzen ? 6 : 5); }
+
+      var allTerminal = true;
+      for (var i = 0; i < 34; i++) {
+        if (counts[i] > 0 && !isTerminal(i) && i < 27) { allTerminal = false; break; }
+        if (counts[i] > 0 && i >= 27) { allTerminal = false; break; }
+      }
+      if (allTerminal && !allHonors) { yakuList.push({ name: '清老頭', han: 13 }); han = 13; }
+      var honroto = true;
+      for (var i = 0; i < 34; i++) {
+        if (counts[i] > 0 && !isTerminalOrHonor(i)) { honroto = false; break; }
+      }
+      if (honroto && !allTerminal) { yakuList.push({ name: '混老頭', han: 2 }); han += 2; }
+
+      var seqs = [];
+      for (var m = 0; m < melds.length; m++) {
+        if (melds[m].type === 'shuntsu') seqs.push(melds[m].start);
+      }
+      var seqCount = {};
+      seqs.forEach(function(s) { seqCount[s] = (seqCount[s] || 0) + 1; });
+      var iipeiko = 0;
+      for (var k in seqCount) iipeiko += Math.floor((seqCount[k] || 0) / 2);
+      if (iipeiko >= 2) { yakuList.push({ name: '二盃口', han: 3 }); han += 3; }
+      else if (iipeiko >= 1) { yakuList.push({ name: '一盃口', han: 1 }); han += 1; }
+
+      var shuntsuCount = 0;
+      for (var m = 0; m < melds.length; m++) if (melds[m].type === 'shuntsu') shuntsuCount++;
+      var pinfuPair = (pair < 27) || (pair >= 27 && pair <= 30 && pair !== bakazeTile && pair !== jikazeTile);
+      var noKoutsu = true;
+      for (var m = 0; m < melds.length; m++) if (melds[m].type === 'koutsu') noKoutsu = false;
+      if (shuntsuCount === 4 && pinfuPair && noKoutsu && menzen && han < 13) {
+        yakuList.push({ name: '平和', han: 1 }); han += 1;
+      }
+
+      var ankouCount = 0;
+      if (menzen) {
+        for (var m = 0; m < melds.length; m++) {
+          if (melds[m].type === 'koutsu') ankouCount++;
+        }
+      }
+      if (ankouCount >= 4) { yakuList.push({ name: '四暗刻', han: 13 }); han = 13; }
+      else if (ankouCount >= 3) { yakuList.push({ name: '三暗刻', han: 2 }); han += 2; }
+
+      fu = calcFu(decomposition, menzen);
+    }
+
+    return {
+      ok: true,
+      han: han,
+      fu: fu,
+      yakuList: yakuList,
+      isChiitoitsu: isChitoi,
+      isKokushi: isKoku
+    };
+  }
+
+  function calcFu(dec, menzen) {
+    var agari = document.querySelector('input[name="agari"]:checked').value;
+    var base = 20;
+    if (agari === 'tsumo') base += 2;
+    if (menzen && agari === 'ron') base += 10;
+
+    var pair = dec.pair;
+    var pairFu = 0;
+    if (pair >= 27 && pair <= 30) {
+      var bakaze = parseInt(document.getElementById('bakaze').value, 10);
+      var jikaze = parseInt(document.getElementById('jikaze').value, 10);
+      if (pair === 27 + bakaze || pair === 27 + jikaze) pairFu = 2;
+    }
+    if (pair >= 31 && pair <= 33) pairFu = 2;
+    base += pairFu * 2;
+
+    var anko = 0, minko = 0;
+    dec.melds.forEach(function(m) {
+      if (m.type !== 'koutsu') return;
+      if (menzen) anko++; else minko++;
+    });
+    base += anko * 8 + minko * 4;
+
+    var fu = Math.ceil(base / 10) * 10;
+    if (fu < 20) fu = 20;
+    return fu;
   }
 
   function ceil100(n) { return Math.ceil(n / 100) * 100; }
@@ -1030,9 +1401,78 @@
     box.innerHTML = '<div class="result-error">' + msg + '</div>';
   }
 
+  var pendingAnalysis = null;
+
   function keisan() {
-    var han           = Number(document.getElementById("han").value);
-    var fu            = Number(document.getElementById("fu").value);
+    var analysis = analyzeHand();
+    if (!analysis.ok) {
+      showError(analysis.error);
+      document.getElementById("detected_yaku_bar").style.display = "none";
+      return;
+    }
+    openYakuModal(analysis);
+  }
+
+  function openYakuModal(analysis) {
+    pendingAnalysis = {
+      han: analysis.han,
+      fu: analysis.fu,
+      yakuList: analysis.yakuList.slice()
+    };
+    document.getElementById("ex_riichi").checked = false;
+    document.getElementById("ex_daburi").checked = false;
+    document.getElementById("ex_ippatsu").checked = false;
+    document.getElementById("ex_tsumo").checked = false;
+    document.getElementById("ex_tenho").checked = false;
+    document.getElementById("ex_chiho").checked = false;
+    document.getElementById("yaku_modal").style.display = "flex";
+  }
+
+  function closeYakuModal() {
+    document.getElementById("yaku_modal").style.display = "none";
+    pendingAnalysis = null;
+  }
+
+  document.getElementById("modal_cancel").onclick = function() { closeYakuModal(); };
+
+  document.getElementById("modal_ok").onclick = function() {
+    if (!pendingAnalysis) return;
+    var extraHan = 0;
+    var extraNames = [];
+    if (document.getElementById("ex_daburi").checked) {
+      extraHan += 2;
+      extraNames.push("ダブル立直");
+    } else if (document.getElementById("ex_riichi").checked) {
+      extraHan += 1;
+      extraNames.push("立直");
+    }
+    if (document.getElementById("ex_ippatsu").checked) { extraHan += 1; extraNames.push("一発"); }
+    if (document.getElementById("ex_tsumo").checked) { extraHan += 1; extraNames.push("門前清自摸和"); }
+    if (document.getElementById("ex_tenho").checked) { extraHan += 13; extraNames.push("天和"); }
+    if (document.getElementById("ex_chiho").checked) { extraHan += 13; extraNames.push("地和"); }
+
+    pendingAnalysis.han += extraHan;
+    extraNames.forEach(function(n) { pendingAnalysis.yakuList.push({ name: n, han: 0 }); });
+    doScoreCalculation(pendingAnalysis);
+    closeYakuModal();
+  };
+
+  document.getElementById("ex_daburi").onchange = function() {
+    var daburi = document.getElementById("ex_daburi").checked;
+    document.getElementById("ex_riichi").disabled = daburi;
+    if (daburi) document.getElementById("ex_riichi").checked = false;
+  };
+
+  function doScoreCalculation(analysis) {
+    document.getElementById("han").value = analysis.han;
+    document.getElementById("fu").value = analysis.fu;
+    var yakuNames = analysis.yakuList.map(function(y) { return y.name; }).join("・");
+    document.getElementById("yaku_names").textContent = yakuNames || "役なし";
+    document.getElementById("han_display").textContent = analysis.han + "翻";
+    document.getElementById("detected_yaku_bar").style.display = "flex";
+
+    var han           = analysis.han;
+    var fu            = analysis.fu;
     var honba         = Number(document.getElementById("honba").value) || 0;
     var riichi_ba     = Number(document.getElementById("riichi_ba").value) || 0;
     var riichi_kuyaku = Number(document.getElementById("riichi_kuyaku").value) || 0;
@@ -1042,7 +1482,7 @@
     var riichiTotal = (riichi_ba + riichi_kuyaku) * 1000;
     var riichiText  = riichiTotal > 0 ? "　供託 +" + riichiTotal + "点" : "";
 
-    if (!han || han < 1) { showError("翻数を入力してください"); return; }
+    if (!han || han < 1) { showError("役がありません"); return; }
 
     var manganKo       = [8000,  12000, 16000, 24000, 32000];
     var manganOya      = [12000, 18000, 24000, 36000, 48000];
